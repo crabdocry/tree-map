@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>二者关系树图</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        #main {
+            width: 100%;
+            height: 100vh;
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById("main"), null, {
+            renderer: "canvas",
+            useDirtyRect: false
+        });
+
+        // 数据
+        var tableData = {
+            name: "二者关系",
+            children: [
+                {
+                    name: "熟人关系",
+                    total: 110,
+                    children: [
+                        {name: "同事", value: 2},
+                        {name: "师生关系", value: 2},
+                        {name: "性交易关系", value: 3},
+                        {name: "朋友", value: 13},
+                        {name: "其他熟人", value: 48},
+                        {name: "网友", value: 20},
+                        {name: "邻居", value: 22}
+                    ]
+                },
+                {
+                    name: "情感纠葛",
+                    total: 23,
+                    children: [
+                        {name: "恋人", value: 10},
+                        {name: "其他情感纠葛", value: 13}
+                    ]
+                },
+                {
+                    name: "亲属关系",
+                    total: 7,
+                    children: [
+                        {name: "其他亲属关系", value: 5},
+                        {name: "继父女", value: 2}
+                    ]
+                },
+                {
+                    name: "陌生关系",
+                    total: 52,
+                    children: [
+                        {name: "陌生", value: 52}
+                    ]
+                },
+                {
+                    name: "其他",
+                    total: 9,
+                    children: [
+                        {name: "其他", value: 9}
+                    ]
+                }
+            ]
+        };
+
+        var option = {
+            tooltip: {
+                trigger: "item",
+                triggerOn: "mousemove",
+                formatter: function (params) {
+                    // 如果有 total 字段，说明是大类
+                    if (params.data.total) {
+                        return params.name + ": " + params.data.total;
+                    } else {
+                        return params.name + (params.value ? (": " + params.value) : "");
+                    }
+                },
+                textStyle: { color: "#000" },
+                backgroundColor: "rgba(255,255,255,0.95)",
+                borderColor: "rgba(0,0,0,0.1)",
+                borderWidth: 1,
+                padding: 8
+            },
+            series: [{
+                type: "tree",
+                data: [tableData],
+                top: "6%",
+                bottom: "6%",
+                left: "12%",
+                right: "12%",
+                symbolSize: 10,
+                label: {
+                    color: "#fff",
+                    position: "left",
+                    verticalAlign: "middle",
+                    align: "right",
+                    fontSize: 12
+                },
+                leaves: {
+                    label: {
+                        color: "#fff",
+                        position: "right",
+                        verticalAlign: "middle",
+                        align: "left",
+                        fontSize: 12
+                    }
+                },
+                emphasis: { focus: "descendant" },
+                expandAndCollapse: false,
+                animationDuration: 500,
+                animationDurationUpdate: 700
+            }]
+        };
+
+        myChart.setOption(option);
+
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+    </script>
+</body>
+</html>
+
