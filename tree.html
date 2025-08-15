@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>二者关系树图</title>
+    <!-- 引入 ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        html, body, #main {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent; /* 背景透明 */
+        }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById("main"), null, {renderer: "canvas", useDirtyRect: false});
+
+        var tableData = {
+            name: "二者关系",
+            children: [
+                {
+                    name: "熟人关系",
+                    children: [
+                        {name: "同事", value: 2},
+                        {name: "师生关系", value: 2},
+                        {name: "性交易关系", value: 3},
+                        {name: "朋友", value: 13},
+                        {name: "其他熟人", value: 48},
+                        {name: "网友", value: 20},
+                        {name: "邻居", value: 22}
+                    ]
+                },
+                {
+                    name: "情感纠葛",
+                    children: [
+                        {name: "恋人", value: 10},
+                        {name: "其他情感纠葛", value: 13}
+                    ]
+                },
+                {
+                    name: "亲属关系",
+                    children: [
+                        {name: "其他亲属关系", value: 5},
+                        {name: "继父女", value: 2}
+                    ]
+                },
+                {
+                    name: "陌生关系",
+                    children: [
+                        {name: "陌生", value: 52}
+                    ]
+                },
+                {
+                    name: "其他",
+                    children: [
+                        {name: "其他", value: 9}
+                    ]
+                }
+            ]
+        };
+
+        var option = {
+            tooltip: {
+                trigger: "item",
+                triggerOn: "mousemove",
+                formatter: function(params){ return params.name + (params.value ? ": " + params.value : ""); },
+                textStyle: {color: "#fff"}
+            },
+            series: [
+                {
+                    type: "tree",
+                    data: [tableData],
+                    top: "5%",
+                    left: "15%",
+                    bottom: "5%",
+                    right: "5%",
+                    symbolSize: 10,
+                    label: {color: "#fff", position: "left", verticalAlign: "middle", align: "right", fontSize: 12},
+                    leaves: {label: {color: "#fff", position: "right", verticalAlign: "middle", align: "left", fontSize: 12}},
+                    emphasis: {focus: "descendant"},
+                    expandAndCollapse: false,
+                    animationDuration: 550,
+                    animationDurationUpdate: 750
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+        window.addEventListener("resize", function(){ myChart.resize(); });
+    </script>
+</body>
+</html>
+
